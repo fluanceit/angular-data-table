@@ -21,7 +21,8 @@ export class HeaderController {
    */
   innerStyles(){
     return {
-      width: this.columnWidths.total + 'px'
+      width: this.columnWidths.total + 'px',
+      height: this.options.headerHeight + 'px'
     };
   }
 

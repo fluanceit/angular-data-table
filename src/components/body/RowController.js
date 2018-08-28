@@ -32,7 +32,8 @@ export class RowController {
    */
   stylesByGroup( group){
     var styles = {
-      width: this.columnWidths[group] + 'px'
+      width: this.columnWidths[group] + 'px',
+      height: this.options.rowHeight + 'px'
     };
 
     if(group === 'left'){

@@ -498,7 +498,8 @@ var RowController = function () {
     key: "stylesByGroup",
     value: function stylesByGroup(group) {
       var styles = {
-        width: this.columnWidths[group] + 'px'
+        width: this.columnWidths[group] + 'px',
+        height: this.options.rowHeight + 'px'
       };
 
       if (group === 'left') {
@@ -1438,7 +1439,8 @@ var HeaderController = function () {
     key: "innerStyles",
     value: function innerStyles() {
       return {
-        width: this.columnWidths.total + 'px'
+        width: this.columnWidths.total + 'px',
+        height: this.options.headerHeight + 'px'
       };
     }
   }, {
