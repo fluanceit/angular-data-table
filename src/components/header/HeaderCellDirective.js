@@ -23,7 +23,7 @@ export function HeaderCellDirective($compile){
             draggable="true"
             data-id="{{column.$id}}"
             ng-style="hcell.styles()"
-            ng-attr-title="hcell.getTitle()">
+            ng-attr-title="{{hcell.getTitle()}}">
         <div resizable="hcell.column.resizable"
              on-resize="hcell.onResized(width, hcell.column)"
              min-width="hcell.column.minWidth"
