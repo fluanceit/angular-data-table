@@ -1411,6 +1411,16 @@
       value: function onCheckboxChange() {
         this.onCheckboxChanged();
       }
+    }, {
+      key: "getTitle",
+      value: function getTitle() {
+        var title = this.column.title;
+        if (title instanceof Function) {
+          return title();
+        } else {
+          return title;
+        }
+      }
     }]);
 
     return HeaderCellController;
@@ -1432,7 +1442,7 @@
         selected: '='
       },
       replace: true,
-      template: "<div ng-class=\"hcell.cellClass()\"\n            class=\"dt-header-cell\"\n            draggable=\"true\"\n            data-id=\"{{column.$id}}\"\n            ng-style=\"hcell.styles()\"\n            title=\"{{::hcell.column.name}}\">\n        <div resizable=\"hcell.column.resizable\"\n             on-resize=\"hcell.onResized(width, hcell.column)\"\n             min-width=\"hcell.column.minWidth\"\n             max-width=\"hcell.column.maxWidth\">\n          <label ng-if=\"hcell.column.isCheckboxColumn && hcell.column.headerCheckbox\" class=\"dt-checkbox\">\n            <input type=\"checkbox\"\n                   ng-checked=\"hcell.selected\"\n                   ng-click=\"hcell.onCheckboxChange()\" />\n          </label>\n          <span class=\"dt-header-cell-label\"\n                ng-click=\"hcell.onSorted()\">\n          </span>\n          <span ng-class=\"hcell.sortClass()\"></span>\n        </div>\n      </div>",
+      template: "<div ng-class=\"hcell.cellClass()\"\n            class=\"dt-header-cell\"\n            draggable=\"true\"\n            data-id=\"{{column.$id}}\"\n            ng-style=\"hcell.styles()\"\n            ng-attr-title=\"hcell.getTitle()\">\n        <div resizable=\"hcell.column.resizable\"\n             on-resize=\"hcell.onResized(width, hcell.column)\"\n             min-width=\"hcell.column.minWidth\"\n             max-width=\"hcell.column.maxWidth\">\n          <label ng-if=\"hcell.column.isCheckboxColumn && hcell.column.headerCheckbox\" class=\"dt-checkbox\">\n            <input type=\"checkbox\"\n                   ng-checked=\"hcell.selected\"\n                   ng-click=\"hcell.onCheckboxChange()\" />\n          </label>\n          <span class=\"dt-header-cell-label\"\n                ng-click=\"hcell.onSorted()\">\n          </span>\n          <span ng-class=\"hcell.sortClass()\"></span>\n        </div>\n      </div>",
       compile: function compile() {
         return {
           pre: function pre($scope, $elm, $attrs, ctrl) {
@@ -1444,6 +1454,10 @@
 
               cellScope.$header = ctrl.column.name;
               cellScope.$index = $scope.$index;
+            }
+
+            if (!ctrl.column.title) {
+              ctrl.column.title = ctrl.column.name;
             }
 
             if (ctrl.column.headerTemplate) {

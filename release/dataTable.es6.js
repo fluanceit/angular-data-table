@@ -1709,6 +1709,19 @@ class HeaderCellController{
     this.onCheckboxChanged();
   }
 
+  /**
+   * Returns text to display as the title for the header
+   */
+  getTitle() {
+    var title = this.column.title;
+    if(title instanceof Function) {
+        return title();
+    }
+    else {
+        return title;
+    }
+  }
+
 }
 
 function HeaderCellDirective($compile){
@@ -1733,7 +1746,7 @@ function HeaderCellDirective($compile){
             draggable="true"
             data-id="{{column.$id}}"
             ng-style="hcell.styles()"
-            title="{{::hcell.column.name}}">
+            ng-attr-title="hcell.getTitle()">
         <div resizable="hcell.column.resizable"
              on-resize="hcell.onResized(width, hcell.column)"
              min-width="hcell.column.minWidth"
@@ -1760,6 +1773,11 @@ function HeaderCellDirective($compile){
             // copy some props
             cellScope.$header = ctrl.column.name;
             cellScope.$index = $scope.$index;
+          }
+
+          // set title fron name, if title is not defined (default)
+          if(!ctrl.column.title) {
+            ctrl.column.title = ctrl.column.name;
           }
 
           if(ctrl.column.headerTemplate){
