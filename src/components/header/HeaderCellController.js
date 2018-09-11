@@ -77,4 +77,17 @@ export class HeaderCellController{
     this.onCheckboxChanged();
   }
 
+  /**
+   * Returns text to display as the title for the header
+   */
+  getTitle() {
+    var title = this.column.title;
+    if(title instanceof Function) {
+        return title();
+    }
+    else {
+        return title;
+    }
+  }
+
 }

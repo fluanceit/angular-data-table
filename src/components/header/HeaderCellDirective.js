@@ -23,7 +23,7 @@ export function HeaderCellDirective($compile){
             draggable="true"
             data-id="{{column.$id}}"
             ng-style="hcell.styles()"
-            title="{{::hcell.column.name}}">
+            ng-attr-title="hcell.getTitle()">
         <div resizable="hcell.column.resizable"
              on-resize="hcell.onResized(width, hcell.column)"
              min-width="hcell.column.minWidth"
@@ -50,6 +50,11 @@ export function HeaderCellDirective($compile){
             // copy some props
             cellScope.$header = ctrl.column.name;
             cellScope.$index = $scope.$index;
+          }
+
+          // set title fron name, if title is not defined (default)
+          if(!ctrl.column.title) {
+            ctrl.column.title = ctrl.column.name;
           }
 
           if(ctrl.column.headerTemplate){
