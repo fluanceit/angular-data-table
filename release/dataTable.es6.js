@@ -1085,7 +1085,7 @@ class BodyController{
       $scope: $scope,
       $timeout: $timeout
     });
-    
+
     if (angular.version.major === 1 && angular.version.minor < 5) {
       this.init();
     }
@@ -1096,7 +1096,7 @@ class BodyController{
     this.init();
   }
   
-  onInit(){
+  init(){
     this.tempRows = [];
 
     this.treeColumn = this.options.columns.find((c) => {

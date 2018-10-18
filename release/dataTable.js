@@ -928,8 +928,8 @@
         this.init();
       }
     }, {
-      key: "onInit",
-      value: function onInit() {
+      key: "init",
+      value: function init() {
         var _this3 = this;
 
         this.tempRows = [];
