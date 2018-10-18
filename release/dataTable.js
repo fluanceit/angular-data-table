@@ -106,30 +106,46 @@
   var PagerController = function () {
     PagerController.$inject = ["$scope"];
     function PagerController($scope) {
-      var _this = this;
-
       _classCallCheck(this, PagerController);
 
-      $scope.$watch('pager.count', function (newVal) {
-        _this.calcTotalPages(_this.size, _this.count);
-        _this.getPages(_this.page || 1);
+      Object.assign(this, {
+        $scope: $scope
       });
 
-      $scope.$watch('pager.size', function (newVal) {
-        _this.calcTotalPages(_this.size, _this.count);
-        _this.getPages(_this.page || 1);
-      });
-
-      $scope.$watch('pager.page', function (newVal) {
-        if (newVal !== 0 && newVal <= _this.totalPages) {
-          _this.getPages(newVal);
-        }
-      });
-
-      this.getPages(this.page || 1);
+      if (angular.version.major === 1 && angular.version.minor < 5) {
+        this.init();
+      }
     }
 
     _createClass(PagerController, [{
+      key: "$onInit",
+      value: function $onInit() {
+        this.init();
+      }
+    }, {
+      key: "init",
+      value: function init() {
+        var _this = this;
+
+        this.$scope.$watch('pager.count', function (newVal) {
+          _this.calcTotalPages(_this.size, _this.count);
+          _this.getPages(_this.page || 1);
+        });
+
+        this.$scope.$watch('pager.size', function (newVal) {
+          _this.calcTotalPages(_this.size, _this.count);
+          _this.getPages(_this.page || 1);
+        });
+
+        this.$scope.$watch('pager.page', function (newVal) {
+          if (newVal !== 0 && newVal <= _this.totalPages) {
+            _this.getPages(newVal);
+          }
+        });
+
+        this.getPages(this.page || 1);
+      }
+    }, {
       key: "calcTotalPages",
       value: function calcTotalPages(size, count) {
         var count = size < 1 ? 1 : Math.ceil(count / size);
@@ -216,17 +232,34 @@
   var FooterController = function () {
     FooterController.$inject = ["$scope"];
     function FooterController($scope) {
-      var _this2 = this;
-
       _classCallCheck(this, FooterController);
 
-      this.page = this.paging.offset + 1;
-      $scope.$watch('footer.paging.offset', function (newVal) {
-        _this2.offsetChanged(newVal);
+      Object.assign(this, {
+        $scope: $scope
       });
+
+      if (angular.version.major === 1 && angular.version.minor < 5) {
+        this.init();
+      }
     }
 
     _createClass(FooterController, [{
+      key: "$onInit",
+      value: function $onInit() {
+        this.init();
+      }
+    }, {
+      key: "init",
+      value: function init() {
+        var _this2 = this;
+
+        this.page = this.paging.offset + 1;
+
+        this.$scope.$watch('footer.paging.offset', function (newVal) {
+          _this2.offsetChanged(newVal);
+        });
+      }
+    }, {
       key: "offsetChanged",
       value: function offsetChanged(newVal) {
         this.page = newVal + 1;
@@ -624,12 +657,28 @@
     function SelectionController($scope) {
       _classCallCheck(this, SelectionController);
 
-      this.body = $scope.body;
-      this.options = $scope.body.options;
-      this.selected = $scope.body.selected;
+      Object.assign(this, {
+        $scope: $scope
+      });
+
+      if (angular.version.major === 1 && angular.version.minor < 5) {
+        this.init();
+      }
     }
 
     _createClass(SelectionController, [{
+      key: "$onInit",
+      value: function $onInit() {
+        this.init();
+      }
+    }, {
+      key: "init",
+      value: function init() {
+        this.body = this.$scope.body;
+        this.options = this.$scope.body.options;
+        this.selected = this.$scope.body.selected;
+      }
+    }, {
       key: "keyDown",
       value: function keyDown(ev, index, row) {
         if (KEYS[ev.keyCode]) {
@@ -861,49 +910,65 @@
   var BodyController = function () {
     BodyController.$inject = ["$scope", "$timeout"];
     function BodyController($scope, $timeout) {
-      var _this3 = this;
-
       _classCallCheck(this, BodyController);
 
-      this.$scope = $scope;
-      this.tempRows = [];
-
-      this.treeColumn = this.options.columns.find(function (c) {
-        return c.isTreeColumn;
+      Object.assign(this, {
+        $scope: $scope,
+        $timeout: $timeout
       });
 
-      this.groupColumn = this.options.columns.find(function (c) {
-        return c.group;
-      });
-
-      $scope.$watchCollection('body.rows', this.rowsUpdated.bind(this));
-
-      if (this.options.scrollbarV || !this.options.scrollbarV && this.options.paging.externalPaging) {
-        var sized = false;
-        $scope.$watch('body.options.paging.size', function (newVal, oldVal) {
-          if (!sized || newVal > oldVal) {
-            _this3.getRows();
-            sized = true;
-          }
-        });
-
-        $scope.$watch('body.options.paging.count', function (count) {
-          _this3.count = count;
-          _this3.updatePage();
-        });
-
-        $scope.$watch('body.options.paging.offset', function (newVal) {
-          if (_this3.options.paging.size) {
-            _this3.onPage({
-              offset: newVal,
-              size: _this3.options.paging.size
-            });
-          }
-        });
+      if (angular.version.major === 1 && angular.version.minor < 5) {
+        this.init();
       }
     }
 
     _createClass(BodyController, [{
+      key: "$onInit",
+      value: function $onInit() {
+        this.init();
+      }
+    }, {
+      key: "onInit",
+      value: function onInit() {
+        var _this3 = this;
+
+        this.tempRows = [];
+
+        this.treeColumn = this.options.columns.find(function (c) {
+          return c.isTreeColumn;
+        });
+
+        this.groupColumn = this.options.columns.find(function (c) {
+          return c.group;
+        });
+
+        this.$scope.$watchCollection('body.rows', this.rowsUpdated.bind(this));
+
+        if (this.options.scrollbarV || !this.options.scrollbarV && this.options.paging.externalPaging) {
+          var sized = false;
+          this.$scope.$watch('body.options.paging.size', function (newVal, oldVal) {
+            if (!sized || newVal > oldVal) {
+              _this3.getRows();
+              sized = true;
+            }
+          });
+
+          this.$scope.$watch('body.options.paging.count', function (count) {
+            _this3.count = count;
+            _this3.updatePage();
+          });
+
+          this.$scope.$watch('body.options.paging.offset', function (newVal) {
+            if (_this3.options.paging.size) {
+              _this3.onPage({
+                offset: newVal,
+                size: _this3.options.paging.size
+              });
+            }
+          });
+        }
+      }
+    }, {
       key: "rowsUpdated",
       value: function rowsUpdated(newVal, oldVal) {
         if (newVal) {
@@ -2116,39 +2181,53 @@
   var DataTableController = function () {
     DataTableController.$inject = ["$scope", "$filter", "$log", "$transclude"];
     function DataTableController($scope, $filter, $log, $transclude) {
-      var _this6 = this;
-
       _classCallCheck(this, DataTableController);
 
+      window.dt = this;
       Object.assign(this, {
         $scope: $scope,
         $filter: $filter,
-        $log: $log
+        $log: $log,
+        $transclude: $transclude
       });
 
-      this.defaults();
-
-      this.options.$outer = $scope.$parent;
-
-      $scope.$watch('dt.options.columns', function (newVal, oldVal) {
-        _this6.transposeColumnDefaults();
-
-        if (newVal.length !== oldVal.length) {
-          _this6.adjustColumns();
-        }
-
-        _this6.calculateColumns();
-      }, true);
-
-      var watch = $scope.$watch('dt.rows', function (newVal) {
-        if (newVal) {
-          watch();
-          _this6.onSorted();
-        }
-      });
+      if (angular.version.major === 1 && angular.version.minor < 5) {
+        this.init();
+      }
     }
 
     _createClass(DataTableController, [{
+      key: "$onInit",
+      value: function $onInit() {
+        this.init();
+      }
+    }, {
+      key: "init",
+      value: function init() {
+        var _this6 = this;
+
+        this.defaults();
+
+        this.options.$outer = this.$scope.$parent;
+
+        this.$scope.$watch('dt.options.columns', function (newVal, oldVal) {
+          _this6.transposeColumnDefaults();
+
+          if (newVal.length !== oldVal.length) {
+            _this6.adjustColumns();
+          }
+
+          _this6.calculateColumns();
+        }, true);
+
+        var watch = this.$scope.$watch('dt.rows', function (newVal) {
+          if (newVal) {
+            watch();
+            _this6.onSorted();
+          }
+        });
+      }
+    }, {
       key: "defaults",
       value: function defaults() {
         var _this7 = this;
