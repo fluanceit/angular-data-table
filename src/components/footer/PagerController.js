@@ -6,17 +6,32 @@ export class PagerController {
    */
   /*@ngInject*/
   constructor($scope){
-    $scope.$watch('pager.count', (newVal) => {
+    Object.assign(this, {
+      $scope: $scope
+    });
+
+    if (angular.version.major === 1 && angular.version.minor < 5) {
+      this.init();
+    }
+  }
+  
+  // Add lifecycle event hook (1.6+)
+  $onInit(){
+    this.init();
+  }
+
+  init(){
+    this.$scope.$watch('pager.count', (newVal) => {
       this.calcTotalPages(this.size, this.count);
       this.getPages(this.page || 1);
     });
 
-    $scope.$watch('pager.size', (newVal) => {
+    this.$scope.$watch('pager.size', (newVal) => {
       this.calcTotalPages(this.size, this.count);
       this.getPages(this.page || 1);
     });
 
-    $scope.$watch('pager.page', (newVal) => {
+    this.$scope.$watch('pager.page', (newVal) => {
       if (newVal !== 0 && newVal <= this.totalPages) {
         this.getPages(newVal);
       }

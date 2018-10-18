@@ -4,9 +4,24 @@ export class SelectionController {
 
   /*@ngInject*/
   constructor($scope){
-    this.body = $scope.body;
-    this.options = $scope.body.options;
-    this.selected = $scope.body.selected;
+    Object.assign(this, {
+      $scope: $scope
+    });
+    
+    if (angular.version.major === 1 && angular.version.minor < 5) {
+      this.init();
+    }
+  }
+
+  // Add lifecycle event hook (1.6+)
+  $onInit(){
+    this.init();
+  }
+  
+  init(){
+    this.body = this.$scope.body;
+    this.options = this.$scope.body.options;
+    this.selected = this.$scope.body.selected;
   }
 
   /**

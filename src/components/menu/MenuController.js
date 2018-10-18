@@ -2,7 +2,9 @@ export class MenuController{
 
   /*@ngInject*/
   constructor($scope, $timeout){
-    this.$scope = $scope;
+    Object.assign(this, {
+      $scope: $scope
+    });
   }
 
   getColumnIndex(model){

@@ -12,18 +12,31 @@ export class DataTableController {
    */
   /*@ngInject*/
   constructor($scope, $filter, $log, $transclude){
+    window.dt = this;
     Object.assign(this, {
       $scope: $scope,
       $filter: $filter,
-      $log: $log
+      $log: $log,
+      $transclude: $transclude
     });
 
+    if (angular.version.major === 1 && angular.version.minor < 5) {
+      this.init();
+    }
+  }
+
+  // Add lifecycle event hook (1.6+)
+  $onInit(){
+    this.init()
+  }
+  
+  init(){
     this.defaults();
 
     // set scope to the parent
-    this.options.$outer = $scope.$parent;
+    this.options.$outer = this.$scope.$parent;
 
-    $scope.$watch('dt.options.columns', (newVal, oldVal) => {
+    this.$scope.$watch('dt.options.columns', (newVal, oldVal) => {
       this.transposeColumnDefaults();
 
       if(newVal.length !== oldVal.length){
@@ -34,7 +47,7 @@ export class DataTableController {
     }, true);
 
     // default sort
-    var watch = $scope.$watch('dt.rows', (newVal) => {
+    var watch = this.$scope.$watch('dt.rows', (newVal) => {
       if(newVal){
         watch();
         this.onSorted();

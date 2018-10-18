@@ -7,8 +7,24 @@ export class FooterController {
    */
   /*@ngInject*/
   constructor($scope){
+    Object.assign(this, {
+      $scope: $scope
+    });
+
+    if (angular.version.major === 1 && angular.version.minor < 5) {
+      this.init();
+    }
+  }
+  
+  // Add lifecycle event hook (1.6+)
+  $onInit(){
+    this.init();
+  }
+
+  init(){
     this.page = this.paging.offset + 1;
-    $scope.$watch('footer.paging.offset', (newVal) => {
+    
+    this.$scope.$watch('footer.paging.offset', (newVal) => {
       this.offsetChanged(newVal)
     });
   }
