@@ -1250,21 +1250,24 @@ var BodyController = function () {
   }, {
     key: "rowClasses",
     value: function rowClasses(row) {
-      var styles = {
+      var cssClasses = {
         'selected': this.isSelected(row),
         'dt-row-even': row && row.$$index % 2 === 0,
         'dt-row-odd': row && row.$$index % 2 !== 0
       };
 
       if (this.treeColumn) {
-        styles['dt-leaf'] = this.rowsByGroup[row[this.treeColumn.relationProp]];
+        cssClasses['dt-leaf'] = this.rowsByGroup[row[this.treeColumn.relationProp]];
 
-        styles['dt-has-leafs'] = this.rowsByGroup[row[this.treeColumn.prop]];
+        cssClasses['dt-has-leafs'] = this.rowsByGroup[row[this.treeColumn.prop]];
 
-        styles['dt-depth-' + row.$$depth] = true;
+        cssClasses['dt-depth-' + row.$$depth] = true;
       }
 
-      return styles;
+      var customCssClasses = this.options.rowClassesGetter ? this.options.rowClassesGetter(row) : {};
+      cssClasses = angular.extend(customCssClasses, cssClasses);
+
+      return cssClasses;
     }
   }, {
     key: "getRowValue",

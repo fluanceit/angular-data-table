@@ -1513,7 +1513,7 @@ class BodyController{
    * @return {css class object}
    */
   rowClasses(row){
-    var styles = {
+    var cssClasses = {
       'selected': this.isSelected(row),
       'dt-row-even': row && row.$$index%2 === 0,
       'dt-row-odd': row && row.$$index%2 !== 0
@@ -1521,14 +1521,17 @@ class BodyController{
 
     if(this.treeColumn){
       // if i am a child
-      styles['dt-leaf'] = this.rowsByGroup[row[this.treeColumn.relationProp]];
+      cssClasses['dt-leaf'] = this.rowsByGroup[row[this.treeColumn.relationProp]];
       // if i have children
-      styles['dt-has-leafs'] = this.rowsByGroup[row[this.treeColumn.prop]];
+      cssClasses['dt-has-leafs'] = this.rowsByGroup[row[this.treeColumn.prop]];
       // the depth
-      styles['dt-depth-' + row.$$depth] = true;
+      cssClasses['dt-depth-' + row.$$depth] = true;
     }
 
-    return styles;
+    var customCssClasses = this.options.rowClassesGetter ? this.options.rowClassesGetter(row) : {};
+    cssClasses = angular.extend(customCssClasses, cssClasses);
+
+    return cssClasses;
   }
 
   /**

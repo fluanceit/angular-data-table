@@ -144,6 +144,7 @@ The data table can be created with the following `options`:
   - `loadingIndicator`. Default `false`
 - `reorderable`: Whether you can reorder columns (default: `true`)
 - `rowHeight`: Row height in pixels, necessary if using lazy rendering (default: `30`)
+- `rowClassesGetter`: Type `function`. Returns additional css classes for the row (default: `undefined`)
 - `scrollbarV`: Enable vertical scrollbars (default: `true`)
 - `selectable`: Whether users can select items (default: `false`)
 
