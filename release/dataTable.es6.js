@@ -2760,9 +2760,8 @@ class DataTableController {
     }, true);
 
     // default sort
-    var watch = this.$scope.$watch('dt.rows', (newVal) => {
+    this.$scope.$watchCollection('dt.rows', (newVal) => {
       if(newVal){
-        watch();
         this.onSorted();
       }
     });

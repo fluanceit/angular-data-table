@@ -2223,9 +2223,8 @@
           _this6.calculateColumns();
         }, true);
 
-        var watch = this.$scope.$watch('dt.rows', function (newVal) {
+        this.$scope.$watchCollection('dt.rows', function (newVal) {
           if (newVal) {
-            watch();
             _this6.onSorted();
           }
         });
