@@ -33,13 +33,13 @@ export class DataTableController {
       this.calculateColumns();
     }, true);
 
-    // default sort
-    var watch = $scope.$watch('dt.rows', (newVal) => {
+    // watch every data change to apply sort
+    $scope.$watchCollection('dt.rows', (newVal) => {
       if(newVal){
-        watch();
         this.onSorted();
       }
     });
+
   }
 
   /**

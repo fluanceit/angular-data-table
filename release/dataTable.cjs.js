@@ -2085,9 +2085,8 @@ var DataTableController = function () {
       _this6.calculateColumns();
     }, true);
 
-    var watch = $scope.$watch('dt.rows', function (newVal) {
+    $scope.$watchCollection('dt.rows', function (newVal) {
       if (newVal) {
-        watch();
         _this6.onSorted();
       }
     });
