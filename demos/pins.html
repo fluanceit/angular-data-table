@@ -138,8 +138,8 @@
             console.log('toggled pin', gcol)
           };
 
-          $http.get('/demos/data/columns.json').success(function(data) {
-            $scope.data = data.splice(0, 10);
+          $http.get('/demos/data/columns.json').then(function(d) {
+            $scope.data = d.data.splice(0, 10);
           });
 
         });

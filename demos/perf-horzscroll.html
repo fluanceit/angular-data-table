@@ -113,8 +113,8 @@
             ]
           };
 
-          $http.get('/demos/data/olympics.json').success(function(data) {
-            $scope.data = data;
+          $http.get('/demos/data/olympics.json').then(function(d) {
+            $scope.data = d.data;
           });
 
         });

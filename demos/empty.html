@@ -73,8 +73,8 @@
           $scope.data = [];
 
           $scope.loadData = function(){
-            $http.get('/demos/data/100.json').success(function(data) {
-              $scope.data.push.apply($scope.data, data);
+            $http.get('/demos/data/100.json').then(function(d) {
+              $scope.data.push.apply($scope.data, d.data);
             });
           };
 

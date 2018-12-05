@@ -85,11 +85,11 @@
             $scope.optionz.paging.loadingIndicator = true;
 
             setTimeout(function(){
-            $http.get('/demos/data/100.json').success(function(d) {
+            $http.get('/demos/data/100.json').then(function(d) {
 
-              $scope.optionz.paging.count = d.length;
+              $scope.optionz.paging.count = d.data.length;
 
-              var set = d.splice(offset, size);
+              var set = d.data.splice(offset, size);
               // only insert items i don't already have
               set.forEach(function(r, i){
                 var idx = i + (offset * size);

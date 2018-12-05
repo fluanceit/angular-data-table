@@ -8,13 +8,13 @@ export function HeaderCellDirective($compile){
     controllerAs: 'hcell',
     scope: true,
     bindToController: {
-      options: '=',
-      column: '=',
+      options: '<',
+      column: '<',
       onCheckboxChange: '&',
       onSort: '&',
-      sortType: '=',
+      sortType: '<',
       onResize: '&',
-      selected: '='
+      selected: '<'
     },
     replace: true,
     template:

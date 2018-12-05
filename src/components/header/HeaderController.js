@@ -93,4 +93,49 @@ export class HeaderController {
     });
   }
 
+  /**
+   * Returns the corrects styles for the cell
+   *
+   * @returns {{width: string, height: string}}
+   */
+  getStyles(){
+    if(this.columns['left'] && this.columns['left'].length > 0){
+      return this.stylesByGroup('left')
+    } else if(this.columns['right'] && this.columns['right'].length > 0){
+      return this.stylesByGroup('right')
+    } else{
+      return this.stylesByGroup('center')
+    }
+  }
+
+  /**
+   * Get the correct column depending if it is in center, left ot right
+   *
+   * @returns {*}
+   */
+  getColumns(){
+    if(this.columns['left'] && this.columns['left'].length > 0){
+      return this.columns['left'];
+    } else if(this.columns['right'] && this.columns['right'].length > 0){
+      return this.columns['right'];
+    } else{
+      return this.columns['center'];
+    }
+  }
+
+  /**
+   * Get the class for the row
+   *
+   * @returns {string}
+   */
+  getRowStyle(){
+    if(this.columns['left'] && this.columns['left'].length > 0){
+      return 'dt-row-left';
+    } else if(this.columns['right'] && this.columns['right'].length > 0){
+      return 'dt-row-right';
+    } else{
+      return 'dt-row-center';
+    }
+  }
+
 };

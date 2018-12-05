@@ -84,8 +84,8 @@
             }]
           };
 
-          $http.get('/demos/data/100.json').success(function(data) {
-            var subData = data.splice(0, 5);
+          $http.get('/demos/data/100.json').then(function(d) {
+            var subData = d.data.splice(0, 5);
 
             for(var i=0;i<subData.length;i++){
               subData[i].imgSrc= 'http://code-maven.com/img/angularjs.png';

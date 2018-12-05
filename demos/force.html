@@ -94,8 +94,8 @@
             $scope.optionz.columns.push.apply($scope.optionz.columns, big);
           };
 
-          $http.get('/demos/data/columns.json').success(function(data) {
-            $scope.data = data;
+          $http.get('/demos/data/columns.json').then(function(d) {
+            $scope.data = d.data;
           });
 
         });

@@ -115,8 +115,8 @@
             console.log('ROW CLICKED', row);
           }
 
-          $http.get('/demos/data/100.json').success(function(data) {
-            $scope.data = data.splice(0, 10);
+          $http.get('/demos/data/100.json').then(function(d) {
+            $scope.data = d.data.splice(0, 10);
           });
 
         });

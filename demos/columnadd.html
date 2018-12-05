@@ -96,8 +96,8 @@
             console.log('columns changed', n)
           }, true)
 
-          $http.get('/demos/data/columns.json').success(function(data) {
-            $scope.data = data;
+          $http.get('/demos/data/columns.json').then(function(d) {
+            $scope.data = d.data;
           });
 
         });

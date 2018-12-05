@@ -69,8 +69,8 @@
             ]
           };
 
-          $http.get('/demos/data/complex-100000.json').success(function(data) {
-            $scope.data = data;
+          $http.get('/demos/data/complex-100000.json').then(function(d) {
+            $scope.data = d.data;
           });
 
         });
