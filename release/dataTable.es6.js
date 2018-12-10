@@ -387,7 +387,7 @@ function CellDirective($rootScope, $compile, $log, $timeout){
       column: '<',
       row: '<',
       expanded: '<',
-      hasChildren: '<',
+      hasChildren: '=',
       onTreeToggle: '&',
       onCheckboxChange: '&'
     },
@@ -396,20 +396,40 @@ function CellDirective($rootScope, $compile, $log, $timeout){
             data-title="{{::cell.column.name}}"
             ng-style="cell.styles()"
             ng-class="cell.cellClass()">
-        <label ng-if="cell.column.isCheckboxColumn" class="dt-checkbox">
-          <input type="checkbox"
-                 ng-checked="cell.selected"
-                 ng-click="cell.onCheckboxChanged($event)" />
-        </label>
-        <span ng-if="cell.column.isTreeColumn && cell.hasChildren"
-              ng-class="cell.treeClass()"
-              ng-click="cell.onTreeToggled($event)"></span>
         <span class="dt-cell-content"></span>
       </div>`,
     replace: true,
     compile: function() {
       return {
         pre: function($scope, $elm, $attrs, ctrl) {
+          var cellRoot = angular.element($elm[0]);
+
+          //Add check box cell content
+          if($scope.cell.column.isCheckboxColumn){
+            var checkBoxContent =
+              `<label class="dt-checkbox">
+                <input type="checkbox"
+                 ng-checked="cell.selected"
+                 ng-click="cell.onCheckboxChanged($event)" />
+              </label>`;
+
+            var checkBoxContentElm = angular.element(checkBoxContent);
+
+            cellRoot.prepend($compile(checkBoxContentElm)($scope));
+          }
+
+          //Add content for tree column if it is parent
+          if($scope.cell.column.isTreeColumn && $scope.cell.hasChildren){
+            var treeColumnContent =
+              `<span ng-class="cell.treeClass()"
+                ng-click="cell.onTreeToggled($event)"></span>`;
+
+            var treeColumnContentElm = angular.element(treeColumnContent);
+
+
+            cellRoot.prepend($compile(treeColumnContentElm)($scope));
+          }
+
           var content = angular.element($elm[0].querySelector('.dt-cell-content')), cellScope;
 
           // extend the outer scope onto our new cell scope

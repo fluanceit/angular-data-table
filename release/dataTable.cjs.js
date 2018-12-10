@@ -332,15 +332,33 @@ function CellDirective($rootScope, $compile, $log, $timeout) {
       column: '<',
       row: '<',
       expanded: '<',
-      hasChildren: '<',
+      hasChildren: '=',
       onTreeToggle: '&',
       onCheckboxChange: '&'
     },
-    template: "<div class=\"dt-cell\"\n            data-title=\"{{::cell.column.name}}\"\n            ng-style=\"cell.styles()\"\n            ng-class=\"cell.cellClass()\">\n        <label ng-if=\"cell.column.isCheckboxColumn\" class=\"dt-checkbox\">\n          <input type=\"checkbox\"\n                 ng-checked=\"cell.selected\"\n                 ng-click=\"cell.onCheckboxChanged($event)\" />\n        </label>\n        <span ng-if=\"cell.column.isTreeColumn && cell.hasChildren\"\n              ng-class=\"cell.treeClass()\"\n              ng-click=\"cell.onTreeToggled($event)\"></span>\n        <span class=\"dt-cell-content\"></span>\n      </div>",
+    template: "<div class=\"dt-cell\"\n            data-title=\"{{::cell.column.name}}\"\n            ng-style=\"cell.styles()\"\n            ng-class=\"cell.cellClass()\">\n        <span class=\"dt-cell-content\"></span>\n      </div>",
     replace: true,
     compile: function compile() {
       return {
         pre: function pre($scope, $elm, $attrs, ctrl) {
+          var cellRoot = angular.element($elm[0]);
+
+          if ($scope.cell.column.isCheckboxColumn) {
+            var checkBoxContent = "<label class=\"dt-checkbox\">\n                <input type=\"checkbox\"\n                 ng-checked=\"cell.selected\"\n                 ng-click=\"cell.onCheckboxChanged($event)\" />\n              </label>";
+
+            var checkBoxContentElm = angular.element(checkBoxContent);
+
+            cellRoot.prepend($compile(checkBoxContentElm)($scope));
+          }
+
+          if ($scope.cell.column.isTreeColumn && $scope.cell.hasChildren) {
+            var treeColumnContent = "<span ng-class=\"cell.treeClass()\"\n                ng-click=\"cell.onTreeToggled($event)\"></span>";
+
+            var treeColumnContentElm = angular.element(treeColumnContent);
+
+            cellRoot.prepend($compile(treeColumnContentElm)($scope));
+          }
+
           var content = angular.element($elm[0].querySelector('.dt-cell-content')),
               cellScope;
 
