@@ -78,12 +78,18 @@ export function CellDirective($rootScope, $compile, $log, $timeout){
 
             if(ctrl.column.template){
               content.empty();
-              var elm = angular.element(`<span>${ctrl.column.template.trim()}</span>`);
-              content.append($compile(elm)(cellScope));
+              var templateContent = ctrl.column.template.trim();
+              if(templateContent && templateContent !== null && templateContent !== ''){
+                var elm = angular.element(`<span>${ctrl.column.template.trim()}</span>`);
+                content.append($compile(elm)(cellScope));
+              }
             } else if(ctrl.column.cellRenderer){
               content.empty();
-              var elm = angular.element(ctrl.column.cellRenderer(cellScope, content));
-              content.append($compile(elm)(cellScope));
+              var cellRenderConent = ctrl.column.cellRenderer(cellScope, content);
+              if(cellRenderConent && cellRenderConent !== null && cellRenderConent !== '') {
+                var elm = angular.element(cellRenderConent);
+                content.append($compile(elm)(cellScope));
+              }
             } else {
               content[0].innerHTML = ctrl.getValue();
             }
